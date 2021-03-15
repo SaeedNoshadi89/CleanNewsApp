@@ -36,7 +36,7 @@ class BreakingNewsFragment : Fragment() {
 
         binding?.apply {
 
-          /*  viewModel.apply {
+            viewModel.apply {
                 lifecycleScope.launch {
                     getBreakingNews("us", 1).collect {
                         when(it){
@@ -52,7 +52,7 @@ class BreakingNewsFragment : Fragment() {
                         }
                     }
                 }
-            }*/
+            }
         }
     }
 

@@ -1,6 +1,9 @@
 package com.sn.cleannewsapp.data.cache
 
-import androidx.room.Dao
+import androidx.room.*
+import com.sn.cleannewsapp.data.entities.Article
+import com.sn.cleannewsapp.utils.Constant
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NewsDao {

@@ -16,7 +16,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RoomModule {
 
-/*    @Singleton
+    @Singleton
     @Provides
     fun provideNewsDatabase(@ApplicationContext appContext: Context) =
         Room.databaseBuilder(appContext, NewsDatabase::class.java, DB_NAME)
@@ -25,5 +25,5 @@ object RoomModule {
 
     @Singleton
     @Provides
-    fun provideNewsDao(db: NewsDatabase) = db.newsDao()*/
+    fun provideNewsDao(db: NewsDatabase) = db.newsDao()
 }
