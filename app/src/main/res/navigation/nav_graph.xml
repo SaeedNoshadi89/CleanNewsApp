@@ -22,10 +22,14 @@
         android:id="@+id/articleFragment"
         android:name="com.sn.cleannewsapp.ui.ArticleFragment"
         android:label="fragment_article"
-        tools:layout="@layout/fragment_article" />
+        tools:layout="@layout/fragment_article" >
+        <argument
+            android:name="article"
+            app:argType="com.sn.cleannewsapp.data.entities.Article" />
+    </fragment>
     <fragment
         android:id="@+id/savedNewsFragment"
-        android:name="com.sn.cleannewsapp.ui.SavedFragment"
+        android:name="com.sn.cleannewsapp.ui.SavedNewsFragment"
         android:label="fragment_saved_news"
         tools:layout="@layout/fragment_saved_news" >
         <action

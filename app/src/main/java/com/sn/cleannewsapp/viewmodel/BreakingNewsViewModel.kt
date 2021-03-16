@@ -5,12 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.sn.cleannewsapp.data.entities.NewsResponse
 import com.sn.cleannewsapp.repository.BreakingNewsRepository
 import com.sn.cleannewsapp.utils.Resource
+import com.sn.cleannewsapp.utils.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,15 +17,35 @@ import javax.inject.Inject
 class BreakingNewsViewModel @Inject constructor(private val breakingNewsRepository: BreakingNewsRepository) :
     ViewModel() {
 
-    fun getBreakingNews(countryCode: String, pageNumber: Int): Flow<Resource<NewsResponse>> = flow {
+    private val breakingNewsStateFlow =
+        MutableStateFlow<Resource<NewsResponse?, String?>>(Resource.loading(null))
+
+    init {
+        fetchBreakingNews("us", 1)
+    }
+
+    private fun fetchBreakingNews(countryCode: String, pageNumber: Int) {
         viewModelScope.launch {
             breakingNewsRepository.getBreakingNews(
                 countryCode = countryCode,
                 pageNumber = pageNumber
             ).collect {
-                emit(it)
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        breakingNewsStateFlow.value = Resource.success(it.data)
+                    }
+                    Status.ERROR -> {
+                        breakingNewsStateFlow.value = Resource.error(message = it.message)
+                    }
+                    else -> {
+                        breakingNewsStateFlow.value = Resource.loading(null)
+                    }
+                }
             }
         }
-    }.flowOn(Dispatchers.IO)
+    }
+
+    val getBreakingNewsStateFlow: StateFlow<Resource<NewsResponse?, String?>> =
+        breakingNewsStateFlow
 
 }

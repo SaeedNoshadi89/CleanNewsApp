@@ -15,7 +15,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RetrofitModule {
 
-    @Singleton
     @Provides
     fun provideMoshi(): Moshi = Moshi.Builder().build()
 

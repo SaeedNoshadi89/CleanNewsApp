@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface BreakingRepositoryDataSource {
 
-    suspend fun getBreakingNews(countryCode: String, pageNumber: Int):  Flow<Resource<NewsResponse>>
+    suspend fun getBreakingNews(countryCode: String, pageNumber: Int):  Flow<Resource<NewsResponse, String>>
 
 }
