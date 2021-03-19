@@ -7,10 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sn.cleannewsapp.data.entities.Article
-import com.sn.cleannewsapp.databinding.NewsItemViewBinding
+import com.sn.cleannewsapp.databinding.NewsFavoriteItemViewBinding
 
-class BreakingNewsAdapter constructor(private val onClick: (article: Article) -> Unit, private val onClickFav: (article: Article) -> Unit) :
-    RecyclerView.Adapter<BreakingNewsAdapter.BreakingNewsViewHolder>() {
+class SavedNewsAdapter constructor(
+    private val onClick: (article: Article) -> Unit,
+    private val onClickDelete: (article: Article) -> Unit
+) :
+    RecyclerView.Adapter<SavedNewsAdapter.SavedNewsViewHolder>() {
 
     private val diffCallback = object : DiffUtil.ItemCallback<Article>() {
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean =
@@ -23,22 +26,23 @@ class BreakingNewsAdapter constructor(private val onClick: (article: Article) ->
     val differ = AsyncListDiffer(this, diffCallback)
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BreakingNewsViewHolder =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SavedNewsViewHolder =
         parent(parent)
 
-    override fun onBindViewHolder(holder: BreakingNewsViewHolder, position: Int) {
-        holder.bind(differ.currentList[position], onClick, onClickFav)
+    override fun onBindViewHolder(holder: SavedNewsViewHolder, position: Int) {
+        holder.bind(differ.currentList[position], onClick, onClickDelete)
     }
 
     override fun getItemCount(): Int = differ.currentList.size
 
-    private fun parent(parent: ViewGroup): BreakingNewsViewHolder = BreakingNewsViewHolder(
-        NewsItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-    )
+    private fun parent(parent: ViewGroup): SavedNewsViewHolder =
+        SavedNewsViewHolder(
+            NewsFavoriteItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        )
 
-    inner class BreakingNewsViewHolder(private val newsItemViewBinding: NewsItemViewBinding) :
+    inner class SavedNewsViewHolder(private val newsItemViewBinding: NewsFavoriteItemViewBinding) :
         RecyclerView.ViewHolder(newsItemViewBinding.root) {
-        fun bind(article: Article, onClick: (article: Article) -> Unit, onClickFav: (article: Article) -> Unit) {
+        fun bind(article: Article, onClick: (article: Article) -> Unit, onClickDelete: (article: Article) -> Unit) {
             newsItemViewBinding.apply {
                 Glide
                     .with(this.root.context)
@@ -54,8 +58,8 @@ class BreakingNewsAdapter constructor(private val onClick: (article: Article) ->
                     onClick(article)
                 }
 
-                imgFav.setOnClickListener {
-                    onClickFav(article)
+                imgDelete.setOnClickListener {
+                    onClickDelete(article)
                 }
             }
         }

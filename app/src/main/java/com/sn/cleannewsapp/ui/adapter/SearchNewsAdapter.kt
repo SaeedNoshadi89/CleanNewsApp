@@ -9,8 +9,8 @@ import com.bumptech.glide.Glide
 import com.sn.cleannewsapp.data.entities.Article
 import com.sn.cleannewsapp.databinding.NewsItemViewBinding
 
-class BreakingNewsAdapter constructor(private val onClick: (article: Article) -> Unit, private val onClickFav: (article: Article) -> Unit) :
-    RecyclerView.Adapter<BreakingNewsAdapter.BreakingNewsViewHolder>() {
+class SearchNewsAdapter constructor(private val onClick: (article: Article) -> Unit, private val onClickFav: (article: Article) -> Unit) :
+    RecyclerView.Adapter<SearchNewsAdapter.BreakingNewsViewHolder>() {
 
     private val diffCallback = object : DiffUtil.ItemCallback<Article>() {
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean =

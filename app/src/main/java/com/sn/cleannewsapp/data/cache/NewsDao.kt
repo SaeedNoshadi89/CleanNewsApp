@@ -12,7 +12,7 @@ interface NewsDao {
     fun getAllArticle(): Flow<List<Article>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(article: Article): Long
+    suspend fun insert(article: Article): Long
 
     @Delete
     suspend fun deleteArticle(article: Article)

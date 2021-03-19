@@ -1,7 +1,6 @@
 package com.sn.cleannewsapp.data.remote
 
 import com.sn.cleannewsapp.BuildConfig
-import com.sn.cleannewsapp.data.entities.Article
 import com.sn.cleannewsapp.data.entities.NewsResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -19,7 +18,7 @@ interface NewsApi {
     suspend fun searchNews(
         @Query("q") searchQuery: String,
         @Query("page") pageNumber: Int = 1,
-        @Query("apKey") apiKey: String = BuildConfig.API_KEY
-    ): List<Article>
+        @Query("apiKey") apiKey: String = BuildConfig.API_KEY
+    ): NewsResponse
 
 }

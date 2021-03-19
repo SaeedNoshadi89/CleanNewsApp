@@ -42,13 +42,29 @@ class BreakingNewsFragment : Fragment() {
                     getBreakingNewsStateFlow.collect {
                         when (it.status) {
                             Status.SUCCESS -> {
-                                rvBreakingNews.adapter = BreakingNewsAdapter { article ->
+                                rvBreakingNews.adapter = BreakingNewsAdapter({ article ->
                                     findNavController().navigate(
                                         BreakingNewsFragmentDirections.actionBreackingNewsFragmentToArticleFragment(
                                             article
                                         )
                                     )
-                                }.apply {
+                                }, {article ->
+                                    lifecycleScope.launch {
+                                        viewModel.insertArticle(article).collect {
+                                            when(it.status){
+                                                Status.SUCCESS -> {
+                                                    Toast.makeText(requireContext(), "Inserting is successfully", Toast.LENGTH_SHORT).show()
+                                                }
+                                                Status.LOADING -> {}
+                                                Status.ERROR -> {
+                                                    Toast.makeText(requireContext(), "Inserting is error", Toast.LENGTH_SHORT).show()
+
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                }).apply {
                                     it.data?.let { response ->
                                         differ.submitList(response.articles)
                                     }
